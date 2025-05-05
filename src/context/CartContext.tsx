@@ -1,38 +1,38 @@
 "use client";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
+import { CartContextType, CartItem } from "@/types";
 
-export interface CartItem {
-  image: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
-
-interface CartContextType {
-  items: CartItem[];
-  addToCart: (item: Omit<CartItem, "quantity">) => void;
-  removeFromCart: (image: string) => void;
-  updateQuantity: (image: string, quantity: number) => void;
-  clearCart: () => void;
-  total: number;
-  count: number;
-}
+const CART_STORAGE_KEY = "portakal-cart";
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
+
+const getStoredCart = (): CartItem[] => {
+  try {
+    if (typeof window === "undefined") return [];
+    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch (error) {
+    console.error("Cart storage error:", error);
+    return [];
+  }
+};
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
 
   useEffect(() => {
-    const stored = localStorage.getItem("cart");
-    if (stored) setItems(JSON.parse(stored));
+    setItems(getStoredCart());
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(items));
+    try {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+    } catch (error) {
+      console.error("Error saving cart:", error);
+    }
   }, [items]);
 
-  const addToCart = (item: Omit<CartItem, "quantity">) => {
+  const addToCart = useCallback((item: Omit<CartItem, "quantity">) => {
     setItems((prev) => {
       const found = prev.find((i) => i.image === item.image);
       if (found) {
@@ -42,27 +42,44 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       }
       return [...prev, { ...item, quantity: 1 }];
     });
-  };
+  }, []);
 
-  const removeFromCart = (image: string) => {
+  const removeFromCart = useCallback((image: string) => {
     setItems((prev) => prev.filter((i) => i.image !== image));
-  };
+  }, []);
 
-  const updateQuantity = (image: string, quantity: number) => {
+  const updateQuantity = useCallback((image: string, quantity: number) => {
     setItems((prev) =>
       prev.map((i) =>
         i.image === image ? { ...i, quantity: Math.max(1, quantity) } : i
       )
     );
-  };
+  }, []);
 
-  const clearCart = () => setItems([]);
+  const clearCart = useCallback(() => setItems([]), []);
 
-  const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  const count = items.reduce((sum, i) => sum + i.quantity, 0);
+  const total = useMemo(() => 
+    items.reduce((sum, i) => sum + i.price * i.quantity, 0),
+    [items]
+  );
+
+  const count = useMemo(() => 
+    items.reduce((sum, i) => sum + i.quantity, 0),
+    [items]
+  );
+
+  const value = useMemo(() => ({
+    items,
+    addToCart,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+    total,
+    count
+  }), [items, addToCart, removeFromCart, updateQuantity, clearCart, total, count]);
 
   return (
-    <CartContext.Provider value={{ items, addToCart, removeFromCart, updateQuantity, clearCart, total, count }}>
+    <CartContext.Provider value={value}>
       {children}
     </CartContext.Provider>
   );
