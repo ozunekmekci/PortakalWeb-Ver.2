@@ -3,13 +3,9 @@ import fs from "fs";
 import path from "path";
 import ProductDetailClient from "./ProductDetailClient";
 
-interface ProductProps {
-  params: { slug: string };
-}
-
-export default function ProductDetail({ params }: ProductProps) {
+export default async function ProductDetail({ params }) {
   const sampleDir = path.join(process.cwd(), "public", "sample");
-  let files: string[] = [];
+  let files = [];
   try {
     files = fs.readdirSync(sampleDir).filter((file) =>
       [".jpg", ".jpeg", ".png", ".webp"].includes(path.extname(file).toLowerCase())
