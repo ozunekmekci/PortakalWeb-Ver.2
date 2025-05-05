@@ -1,10 +1,9 @@
 'use client';
-import Link from "next/link";
-import { useState } from "react";
-import Image from "next/image";
+import { useState } from 'react';
+import Image from 'next/image';
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [success, setSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -17,40 +16,49 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FF914D]">
-      <header className="w-full flex justify-between items-center px-6 py-4 bg-[#FF914D]/90 shadow-sm sticky top-0 z-10">
-        <div className="flex items-center gap-3">
-          <Image src="/logo/logo.png" alt="Portakal Çiçeği Atölye Logo" width={48} height={48} className="rounded-full bg-white p-1 shadow" />
-          <span className="text-2xl font-bold tracking-tight text-[#E94F1D]">Portakal Çiçeği</span>
+    <main className="min-h-screen bg-gradient-to-br from-brand-pink/5 via-white to-brand-blue/5 py-12">
+      <div className="container mx-auto px-4 max-w-2xl">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-serif text-gray-800 mb-4">İletişim</h1>
+          <p className="text-gray-600 max-w-xl mx-auto">Sorularınız ve özel istekleriniz için bize ulaşın. En kısa sürede dönüş yapalım.</p>
         </div>
-        <nav className="space-x-6 text-[#E94F1D] font-medium flex items-center">
-          <Link href="/" className="hover:text-white">Ürünler</Link>
-          <Link href="/cart" className="hover:text-white">Sepet</Link>
-          <Link href="/about" className="hover:text-white">Hakkımızda</Link>
-        </nav>
-      </header>
-      <main className="flex-1 w-full max-w-2xl mx-auto px-4 py-10">
-        <h1 className="text-3xl font-extrabold text-pink-700 mb-6 text-center">İletişim</h1>
-        <div className="bg-white rounded-xl shadow p-6">
+        <div className="bg-white rounded-2xl shadow-lg p-8 animate-fade-in">
           {success ? (
             <div className="text-center text-green-600 font-semibold text-lg py-8">Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağım.</div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <input required name="name" value={form.name} onChange={handleChange} placeholder="Ad Soyad" className="border rounded px-4 py-2" />
-              <input required name="email" value={form.email} onChange={handleChange} placeholder="E-posta" type="email" className="border rounded px-4 py-2" />
-              <textarea required name="message" value={form.message} onChange={handleChange} placeholder="Mesajınız" className="border rounded px-4 py-2 resize-none min-h-[80px]" />
-              <button type="submit" className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-lg font-medium transition mt-2">Gönder</button>
+              <input required name="name" value={form.name} onChange={handleChange} placeholder="Ad Soyad" className="border border-gray-200 rounded-xl px-4 py-3 focus:border-brand-orange focus:ring-2 focus:ring-brand-orange/20 outline-none transition-all" />
+              <input required name="email" value={form.email} onChange={handleChange} placeholder="E-posta" type="email" className="border border-gray-200 rounded-xl px-4 py-3 focus:border-brand-orange focus:ring-2 focus:ring-brand-orange/20 outline-none transition-all" />
+              <textarea required name="message" value={form.message} onChange={handleChange} placeholder="Mesajınız" className="border border-gray-200 rounded-xl px-4 py-3 focus:border-brand-orange focus:ring-2 focus:ring-brand-orange/20 outline-none transition-all resize-none min-h-[80px]" />
+              <button type="submit" className="bg-brand-orange hover:bg-orange-600 text-white px-8 py-3 rounded-lg font-semibold transition-colors mt-2">Gönder</button>
             </form>
           )}
           <div className="mt-8 text-gray-500 text-sm text-center">
-            <div>Mail: <a href="mailto:portakalpleksi@gmail.com" className="underline hover:text-pink-600">portakalpleksi@gmail.com</a></div>
-            <div>Instagram: <a href="https://www.instagram.com/portakalcicegi.atolye/" target="_blank" rel="noopener noreferrer" className="underline hover:text-pink-600">@portakalcicegi.atolye</a></div>
+            <div>Mail: <a href="mailto:portakalpleksi@gmail.com" className="underline hover:text-brand-orange">portakalpleksi@gmail.com</a></div>
+            <div>Instagram: <a href="https://www.instagram.com/portakalcicegi.atolye/" target="_blank" rel="noopener noreferrer" className="underline hover:text-brand-orange">@portakalcicegi.atolye</a></div>
           </div>
         </div>
-      </main>
-      <footer className="w-full text-center py-6 text-gray-500 bg-white/70 mt-8 text-sm">
-        © {new Date().getFullYear()} Portakal Pleksi | El Yapımı Kişiye Özel Magnetler
-      </footer>
-    </div>
+        {/* Sosyal Kanıt */}
+        <section className="mt-20">
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-brand-pink/60 rounded-2xl p-6 flex flex-col items-center shadow">
+              <span className="text-4xl mb-2">💬</span>
+              <blockquote className="italic text-gray-700 text-center mb-2">“İletişim çok hızlı ve ilgili, teşekkürler!”</blockquote>
+              <span className="font-bold text-brand-orange">- Burcu S.</span>
+            </div>
+            <div className="bg-brand-blue/60 rounded-2xl p-6 flex flex-col items-center shadow">
+              <span className="text-4xl mb-2">🏆</span>
+              <div className="font-bold text-lg text-gray-800 mb-1">Müşteri Desteği</div>
+              <div className="text-gray-600 text-sm text-center">2024 Handmade Awards</div>
+            </div>
+            <div className="bg-green-100 rounded-2xl p-6 flex flex-col items-center shadow">
+              <span className="text-4xl mb-2">🔒</span>
+              <div className="font-bold text-lg text-gray-800 mb-1">Güvenli Alışveriş</div>
+              <div className="text-gray-600 text-sm text-center">256-bit SSL ile korunan ödeme altyapısı</div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
   );
 } 

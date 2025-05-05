@@ -7,8 +7,8 @@ import { CartProvider } from '@/context/CartContext'
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Portakal Çiçeği - Doğal ve Sağlıklı",
-  description: "Doğanın en saf haliyle, size özel hazırlanmış portakal çiçeği ürünleri.",
+  title: "Portakal Çiçeği Atölye",
+  description: "El yapımı, kişiye özel tasarım hatıra ürünleri. Portakal Çiçeği Atölye ile sevdiklerinize anlam katın.",
 };
 
 export default function RootLayout({

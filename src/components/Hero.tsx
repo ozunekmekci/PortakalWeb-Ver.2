@@ -36,23 +36,28 @@ interface HeroProps {
 const Hero = ({ kargoMesaji }: HeroProps) => {
   return (
     <section className="relative w-full bg-gradient-to-br from-brand-pink via-brand-blue to-white pb-0 pt-10 md:pt-20">
-      {/* Kargo ve indirim bannerı */}
-      <div className="w-full bg-orange-100 text-orange-800 text-center py-2 text-sm font-semibold tracking-wide flex items-center justify-center gap-2 mb-4">
-        <span>%{DISCOUNT} İNDİRİM</span>
-        <span>·</span>
-        <span>{kargoMesaji}</span>
-        <span className="flex items-center gap-1">🚚 KARGO ÜCRETSİZ</span>
+      {/* Modern Promosyon Bannerı */}
+      <div className="w-full flex justify-center items-center mb-6">
+        <div className="relative px-8 py-2 rounded-2xl shadow-lg bg-gradient-to-r from-brand-orange via-pink-200 to-brand-blue border-2 border-orange-200 flex items-center gap-4 animate-fade-in"
+          style={{ boxShadow: '0 4px 24px 0 rgba(255, 145, 77, 0.10)' }}>
+          <span className="text-white font-bold text-lg md:text-xl drop-shadow">%{DISCOUNT} İNDİRİM</span>
+          <span className="w-2 h-2 rounded-full bg-white/60 mx-2"></span>
+          <span className="text-orange-900 font-semibold text-base md:text-lg tracking-wide">{kargoMesaji || 'MAYIS AYINA ÖZEL KARGO ÜCRETSİZ'}</span>
+          <span className="flex items-center gap-1 text-blue-800 font-bold text-base md:text-lg bg-white/80 px-3 py-1 rounded-xl shadow border border-blue-200">
+            <span className="text-2xl">🚚</span> KARGO ÜCRETSİZ
+          </span>
+        </div>
       </div>
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center gap-10 md:gap-16">
         {/* Sol: Logo veya ürün görseli */}
         <div className="flex-shrink-0 flex flex-col items-center md:items-start w-full md:w-1/2">
-          <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-6 md:mb-0">
+          <div className="bg-white rounded-3xl shadow-2xl border-4 border-brand-orange p-4 md:p-8 mb-6 md:mb-0 flex items-center justify-center">
             <Image
               src="/logo/logo.png"
               alt="Portakal Çiçeği Atölye"
-              width={200}
-              height={200}
-              className="rounded-xl object-contain"
+              width={300}
+              height={300}
+              className="rounded-2xl object-contain h-40 md:h-60 w-auto drop-shadow-xl"
               priority
             />
           </div>

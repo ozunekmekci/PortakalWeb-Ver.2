@@ -1,6 +1,7 @@
 'use client';
 import Link from "next/link";
 import { useState } from "react";
+import SocialProof from '@/components/SocialProof';
 
 const faqs = [
   {
@@ -28,23 +29,17 @@ const faqs = [
 export default function FAQPage() {
   const [open, setOpen] = useState<number | null>(null);
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 to-pink-50">
-      <header className="w-full flex justify-between items-center px-6 py-4 bg-white/80 shadow-sm sticky top-0 z-10">
-        <div className="text-2xl font-bold tracking-tight text-pink-600">Portakal Pleksi</div>
-        <nav className="space-x-6 text-gray-700 font-medium flex items-center">
-          <Link href="/" className="hover:text-pink-500">Ürünler</Link>
-          <Link href="/cart" className="hover:text-pink-500">Sepet</Link>
-          <Link href="/about" className="hover:text-pink-500">Hakkımızda</Link>
-          <Link href="/contact" className="hover:text-pink-500">İletişim</Link>
-        </nav>
-      </header>
-      <main className="flex-1 w-full max-w-2xl mx-auto px-4 py-10">
-        <h1 className="text-3xl font-extrabold text-pink-700 mb-6 text-center">Sıkça Sorulan Sorular</h1>
-        <div className="bg-white rounded-xl shadow p-6 divide-y divide-pink-50">
+    <main className="min-h-screen bg-gradient-to-br from-brand-pink/5 via-white to-brand-blue/5 py-12">
+      <div className="container mx-auto px-4 max-w-2xl">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-serif text-gray-800 mb-4">Sıkça Sorulan Sorular</h1>
+          <p className="text-gray-600 max-w-xl mx-auto">En çok merak edilen sorular ve cevapları burada.</p>
+        </div>
+        <div className="bg-white rounded-2xl shadow-lg p-8 divide-y divide-brand-pink/10 animate-fade-in">
           {faqs.map((faq, i) => (
             <div key={i}>
               <button
-                className="w-full text-left py-4 font-semibold text-pink-700 flex justify-between items-center focus:outline-none"
+                className="w-full text-left py-4 font-semibold text-brand-orange flex justify-between items-center focus:outline-none"
                 onClick={() => setOpen(open === i ? null : i)}
               >
                 {faq.q}
@@ -58,10 +53,46 @@ export default function FAQPage() {
             </div>
           ))}
         </div>
-      </main>
-      <footer className="w-full text-center py-6 text-gray-500 bg-white/70 mt-8 text-sm">
-        © {new Date().getFullYear()} Portakal Pleksi | El Yapımı Kişiye Özel Magnetler
-      </footer>
-    </div>
+        {/* Sosyal Kanıt */}
+        <SocialProof
+          reviews={[
+            {
+              name: 'Zeynep T.',
+              rating: 5,
+              text: 'Sorularım çok hızlı yanıtlandı, güvenle alışveriş yaptım! SSS bölümü de çok faydalı.',
+              date: 'Mart 2024',
+              avatar: '/images/avatars/zeynept.jpg',
+            },
+            {
+              name: 'Burak M.',
+              rating: 4.9,
+              text: 'SSS bölümünde aradığım tüm soruların cevabını buldum. Çok kapsamlı ve açıklayıcı.',
+              date: 'Şubat 2024',
+              avatar: '/images/avatars/burakm.jpg',
+            }
+          ]}
+          badges={[
+            {
+              icon: '🏆',
+              title: 'Müşteri Memnuniyeti',
+              desc: '2024 Handmade Awards',
+              bgClass: 'bg-brand-blue/60',
+            },
+            {
+              icon: '❓',
+              title: 'Detaylı Bilgi',
+              desc: 'Kapsamlı SSS bölümü',
+              bgClass: 'bg-brand-pink/60',
+            },
+            {
+              icon: '🔒',
+              title: 'Güvenli Alışveriş',
+              desc: '256-bit SSL ile korunan ödeme altyapısı',
+              bgClass: 'bg-green-100',
+            }
+          ]}
+        />
+      </div>
+    </main>
   );
 } 

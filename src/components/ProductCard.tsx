@@ -1,11 +1,13 @@
 "use client";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { StarIcon } from '@heroicons/react/24/solid';
 import { Product } from '@/types';
 import { HeartIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
+import { useCart } from '@/context/CartContext';
+import { motion } from 'framer-motion';
 
 const DISCOUNT = 30;
 const KARGO_MESAJI = "🚚 KARGO ÜCRETSİZ";
@@ -15,70 +17,71 @@ interface ProductCardProps {
   onAddToCart: () => void;
   onFavoriteClick: () => void;
   isFavorite: boolean;
-  onQuickView?: (product: Product) => void;
 }
 
-const ProductCard = ({ product, onAddToCart, onFavoriteClick, isFavorite, onQuickView }: ProductCardProps) => {
-  const slug = product.image.split("/").pop()?.split(".")[0] || "";
+export default function ProductCard({ product, onAddToCart, onFavoriteClick, isFavorite }: ProductCardProps) {
+  const [isHovered, setIsHovered] = useState(false);
+  const { addToCart } = useCart();
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => { setIsClient(true); }, []);
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    addToCart(product);
+    onAddToCart();
+  };
 
   return (
-    <article className="group relative bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 h-full cursor-pointer">
-      {/* Product Image */}
-      <div className="relative aspect-square overflow-hidden rounded-t-lg">
-        <Image
-          src={product.image}
-          alt={product.name}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
-        />
-        {product.isNew && (
-          <span className="absolute top-2 left-2 bg-orange-500 text-white text-xs px-2 py-1 rounded">
-            Yeni
-          </span>
-        )}
-        <button
-          onClick={(e) => { e.stopPropagation(); onFavoriteClick(); }}
-          className="absolute top-2 right-2 p-2 rounded-full bg-white/80 hover:bg-white transition-colors"
-        >
-          {isFavorite ? (
-            <HeartIconSolid className="h-5 w-5 text-orange-500" />
-          ) : (
-            <HeartIcon className="h-5 w-5 text-gray-600" />
-          )}
-        </button>
-      </div>
+    <>
+      <motion.div
+        className="group relative bg-white rounded-2xl shadow-lg overflow-hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        onHoverStart={() => setIsHovered(true)}
+        onHoverEnd={() => setIsHovered(false)}
+      >
+        {/* Ürün Görseli */}
+        <Link href={`/products/${product.slug}`} className="block relative aspect-square">
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </Link>
 
-      {/* Product Info */}
-      <div className="p-3 md:p-4">
-        <div className="flex flex-wrap gap-2 mb-2">
-          <span className="inline-flex items-center bg-orange-100 text-orange-600 font-bold text-xs px-2 py-1 rounded-full">%{DISCOUNT} İNDİRİM</span>
-          <span className="inline-flex items-center bg-green-100 text-green-700 font-bold text-xs px-2 py-1 rounded-full">🚚 KARGO ÜCRETSİZ</span>
-        </div>
-        <h3 className="text-lg font-medium text-gray-800 mb-1 group-hover:text-orange-600 transition-colors">
-          {product.name}
-        </h3>
-        <p className="text-sm text-gray-600 mb-2 line-clamp-2">{product.description}</p>
-        <div className="flex items-center justify-between">
-          <span className="text-lg font-semibold text-orange-600">{product.price} TL</span>
+        {/* Hızlı Erişim Butonları */}
+        <div className="absolute top-4 right-4 flex flex-col gap-2">
           <button
-            onClick={(e) => { e.stopPropagation(); onAddToCart(); }}
-            className="p-2 rounded-full bg-orange-100 text-orange-600 hover:bg-orange-200 transition-colors"
+            onClick={onFavoriteClick}
+            className="p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-colors"
           >
-            <ShoppingCartIcon className="h-5 w-5" />
+            {isFavorite ? (
+              <HeartIconSolid className="h-5 w-5 text-red-500" />
+            ) : (
+              <HeartIcon className="h-5 w-5 text-gray-600" />
+            )}
           </button>
         </div>
-        {/* Quick View butonu */}
-        {onQuickView && (
-          <button
-            onClick={(e) => { e.stopPropagation(); onQuickView(product); }}
-            className="mt-3 w-full py-2 rounded-lg bg-brand-blue text-blue-700 font-semibold hover:bg-brand-pink transition-colors text-sm"
-          >
-            👁️ Hızlı Bakış
-          </button>
-        )}
-      </div>
-    </article>
+
+        {/* Ürün Bilgileri */}
+        <div className="p-4">
+          <Link href={`/products/${product.slug}`} className="block">
+            <h3 className="font-medium text-gray-800 mb-1 line-clamp-2">{product.name}</h3>
+            <p className="text-sm text-gray-600 mb-2 line-clamp-2">{product.description}</p>
+            <div className="flex items-center justify-between">
+              <span className="text-lg font-semibold text-brand-orange">{product.price} TL</span>
+              <button
+                onClick={handleAddToCart}
+                className="p-2 bg-brand-orange text-white rounded-full hover:bg-orange-600 transition-colors"
+              >
+                <ShoppingCartIcon className="h-5 w-5" />
+              </button>
+            </div>
+          </Link>
+        </div>
+      </motion.div>
+    </>
   );
-};
-
-export default ProductCard; 
+} 

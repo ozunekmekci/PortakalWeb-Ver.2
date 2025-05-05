@@ -26,25 +26,33 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
-      {/* Dinamik indirim ve kargo bannerı */}
-      <div className="bg-orange-100 text-orange-800 text-center py-2 text-sm font-semibold tracking-wide flex items-center justify-center gap-2">
-        <span>%{DISCOUNT} İNDİRİM</span>
-        <span>·</span>
-        <span>{currentMonth} AYINA ÖZEL</span>
-        <span className="flex items-center gap-1">🚚 KARGO ÜCRETSİZ</span>
+      {/* Modern Promosyon Bannerı */}
+      <div className="w-full flex justify-center items-center py-0.5 bg-transparent">
+        <div className="relative px-8 py-1.5 rounded-2xl shadow-lg bg-gradient-to-r from-brand-orange via-pink-200 to-brand-blue border-2 border-orange-200 flex items-center gap-4 animate-fade-in"
+          style={{ boxShadow: '0 4px 24px 0 rgba(255, 145, 77, 0.10)' }}>
+          <span className="text-white font-bold text-lg md:text-xl drop-shadow">%{DISCOUNT} İNDİRİM</span>
+          <span className="w-2 h-2 rounded-full bg-white/60 mx-2"></span>
+          <span className="text-orange-900 font-semibold text-base md:text-lg tracking-wide">{currentMonth} AYINA ÖZEL KARGO ÜCRETSİZ</span>
+          <span className="flex items-center gap-1 text-blue-800 font-bold text-base md:text-lg bg-white/80 px-3 py-1 rounded-xl shadow border border-blue-200">
+            <span className="text-2xl">🚚</span> KARGO ÜCRETSİZ
+          </span>
+        </div>
       </div>
       {/* Main Header */}
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-28 md:h-32">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <Image
-              src="/logo/logo.png"
-              alt="Portakal Çiçeği Atölye"
-              width={150}
-              height={60}
-              className="h-12 w-auto"
-            />
+            <div className="rounded-3xl bg-white shadow-xl border-4 border-brand-orange p-2 md:p-4 flex items-center justify-center transition-transform hover:scale-105">
+              <Image
+                src="/logo/logo.png"
+                alt="Portakal Çiçeği Atölye"
+                width={200}
+                height={200}
+                className="h-20 md:h-28 w-auto drop-shadow-xl"
+                priority
+              />
+            </div>
           </Link>
 
           {/* Navigation */}

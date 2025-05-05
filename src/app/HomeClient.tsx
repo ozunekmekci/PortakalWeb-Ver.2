@@ -58,7 +58,7 @@ export default function HomeClient({ products }: { products: Product[] }) {
           Portakal Çiçeği Atölye - Kişiye Özel Pleksi Magnet & Anahtarlıklar
         </h1>
         <p className="text-center text-lg text-white mb-8 max-w-2xl mx-auto">
-          El yapımı, folyo baskılı pleksi magnetler ve anahtarlıklar. 300 gr kağıt arka yüzüyle hem dayanıklı hem de şık. Hediyelik, magnet veya anahtarlık olarak kişiye özel tasarım seçenekleriyle sevdiklerinize anlam katın.
+          El yapımı, folyo baskılı pleksi magnetler ve anahtarlıklar. Lüks Dokulu Özel Tasarım Kart ile hem dayanıklı hem de şık. Hediyelik, magnet veya anahtarlık olarak kişiye özel tasarım seçenekleriyle sevdiklerinize anlam katın.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {extendedProducts.map((product) => (

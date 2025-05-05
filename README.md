@@ -1,54 +1,48 @@
-# Portakal Çiçeği 🌸
+# Portakal Çiçeği Atölye 🌸
 
-Modern web teknolojileri ile geliştirilmiş, performans odaklı bir web uygulaması.
+Modern, pastel ve profesyonel e-ticaret web uygulaması.
 
-## 🚀 Teknolojiler
+## 🚀 Kullanılan Teknolojiler
 
-- **Next.js 14** - React framework
-- **TypeScript** - Tip güvenliği
-- **Tailwind CSS** - Utility-first CSS framework
-- **Jest** - Test framework
-- **ESLint & Prettier** - Kod kalitesi ve formatlama
+- **Next.js 14** (App Router)
+- **TypeScript**
+- **Tailwind CSS**
+- **Jest** (test)
+- **ESLint & Prettier**
 
-## ✨ Özellikler
+## ✨ Öne Çıkan Özellikler
 
-- 🎯 Modern ve responsive tasarım
-- ⚡️ Hızlı sayfa yüklemeleri
-- 🔍 SEO optimizasyonu
-- 📱 Mobil uyumlu
-- 🧪 Kapsamlı test altyapısı
-- 🔒 Tip güvenliği
-- 🎨 Özelleştirilebilir tema sistemi
+- 🎨 Modern, pastel ve marka uyumlu UI/UX
+- 🖼️ Büyük ve belirgin logo, modern promosyon barı
+- 🛒 Tam fonksiyonel sepet, ödeme ve sipariş akışı
+- 📱 Mobil ve masaüstü için responsive tasarım
+- ⭐ Güçlü sosyal kanıt: Instagram temalı müşteri yorumları, rozetler
+- 🏷️ Dinamik promosyonlar ve kampanya bannerları
+- 🚚 Kargo ve indirimler için dikkat çekici üst bar
+- 🔍 SEO ve hızlı sayfa yüklemeleri
+- 🧹 Hızlı bakış (Quick View) özelliği tamamen kaldırıldı
+- 🛠️ Kod kalitesi ve test altyapısı
 
 ## 🛠️ Kurulum
 
 ```bash
-# Repository'yi klonlayın
-git clone https://github.com/YOUR_USERNAME/REPOSITORY_NAME.git
-
-# Proje dizinine gidin
-cd portakal-cicegi
-
-# Bağımlılıkları yükleyin
+# Repo klonla
+https://github.com/ozunekmekci/portakalcicegiwebsite.git
+cd portakalcicegiwebsite
 npm install
-
-# Geliştirme sunucusunu başlatın
 npm run dev
 ```
 
-## 📝 Kullanılabilir Komutlar
-
-- `npm run dev` - Geliştirme sunucusunu başlatır
-- `npm run build` - Projeyi production için derler
-- `npm start` - Production build'ini çalıştırır
-- `npm run lint` - ESLint ile kod kontrolü yapar
-- `npm run test` - Testleri çalıştırır
-- `npm run format` - Prettier ile kod formatlaması yapar
+## Komutlar
+- `npm run dev` - Geliştirme sunucusu
+- `npm run build` - Production derleme
+- `npm start` - Production başlatma
+- `npm run lint` - Kod kontrolü
+- `npm run test` - Testler
+- `npm run format` - Kod formatlama
 
 ## 🌐 Canlı Demo
+[Vercel'de Görüntüle](https://portakalcicegiwebsite.vercel.app)
 
-[Vercel Deployment Link](https://your-vercel-deployment-url.vercel.app)
-
-## 📄 Lisans
-
+## Lisans
 MIT License - Detaylar için [LICENSE](LICENSE) dosyasına bakın.

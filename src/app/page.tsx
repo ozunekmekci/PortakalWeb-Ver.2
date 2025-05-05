@@ -3,6 +3,7 @@ import FeaturedProducts from '@/components/FeaturedProducts';
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import SocialProof from '@/components/SocialProof';
 
 const FIXED_TITLE = 'Kişiye Özel Pleksi Bebek Hatıra Mıknatıs Hediyelik – Baskılı Figür ve İsim Yazılı Babyshower & Mevlüt & Doğum Günü Hediyesi';
 const FIXED_PRICE = 35;
@@ -55,27 +56,31 @@ export default function Home() {
         title="El Yapımı Ürünlerimiz"
         subtitle="Kişiye özel tasarım ve el emeği ürünlerimizle tanışın"
       />
-      <section className="mt-20 mb-12">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-brand-pink/60 rounded-2xl p-6 flex flex-col items-center shadow">
-              <span className="text-4xl mb-2">💬</span>
-              <blockquote className="italic text-gray-700 text-center mb-2">“Ürünlerinizin kalitesine ve hızlı teslimatınıza bayıldım! Herkese tavsiye ederim.”</blockquote>
-              <span className="font-bold text-brand-orange">- Elif K.</span>
-            </div>
-            <div className="bg-brand-blue/60 rounded-2xl p-6 flex flex-col items-center shadow">
-              <span className="text-4xl mb-2">🏆</span>
-              <div className="font-bold text-lg text-gray-800 mb-1">Yılın El Yapımı Hediyesi</div>
-              <div className="text-gray-600 text-sm text-center">2024 Handmade Awards</div>
-            </div>
-            <div className="bg-green-100 rounded-2xl p-6 flex flex-col items-center shadow">
-              <span className="text-4xl mb-2">🔒</span>
-              <div className="font-bold text-lg text-gray-800 mb-1">Güvenli Alışveriş</div>
-              <div className="text-gray-600 text-sm text-center">256-bit SSL ile korunan ödeme altyapısı</div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <SocialProof
+        reviews={[
+          {
+            name: 'Elif K.',
+            rating: 5,
+            text: 'Ürünlerinizin kalitesine ve hızlı teslimatınıza bayıldım! Herkese tavsiye ederim.',
+            date: 'Mart 2024',
+            avatar: '/images/avatars/elifk.jpg',
+          },
+        ]}
+        badges={[
+          {
+            icon: '🏆',
+            title: 'Yılın El Yapımı Hediyesi',
+            desc: '2024 Handmade Awards',
+            bgClass: 'bg-brand-blue/60',
+          },
+          {
+            icon: '🔒',
+            title: 'Güvenli Alışveriş',
+            desc: '256-bit SSL ile korunan ödeme altyapısı',
+            bgClass: 'bg-green-100',
+          },
+        ]}
+      />
     </main>
   );
 }
