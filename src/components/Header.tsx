@@ -2,24 +2,45 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ShoppingCartIcon, UserIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+
+function getCurrentMonthTR() {
+  const aylar = [
+    'OCAK', 'ŞUBAT', 'MART', 'NİSAN', 'MAYIS', 'HAZİRAN',
+    'TEMMUZ', 'AĞUSTOS', 'EYLÜL', 'EKİM', 'KASIM', 'ARALIK'
+  ];
+  const now = new Date();
+  return aylar[now.getMonth()];
+}
+
+const DISCOUNT = 30;
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const currentMonth = getCurrentMonthTR();
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
-      {/* Top Banner */}
-      <div className="bg-orange-100 text-orange-800 text-center py-2 text-sm">
-        <p>🚚 Ücretsiz Kargo - 500TL ve üzeri siparişlerde</p>
+      {/* Dinamik indirim ve kargo bannerı */}
+      <div className="bg-orange-100 text-orange-800 text-center py-2 text-sm font-semibold tracking-wide flex items-center justify-center gap-2">
+        <span>%{DISCOUNT} İNDİRİM</span>
+        <span>·</span>
+        <span>{currentMonth} AYINA ÖZEL</span>
+        <span className="flex items-center gap-1">🚚 KARGO ÜCRETSİZ</span>
       </div>
-
       {/* Main Header */}
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-serif text-orange-600">
-            Portakal Çiçeği
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/logo/logo.png"
+              alt="Portakal Çiçeği Atölye"
+              width={150}
+              height={60}
+              className="h-12 w-auto"
+            />
           </Link>
 
           {/* Navigation */}

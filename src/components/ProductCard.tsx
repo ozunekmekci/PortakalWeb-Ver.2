@@ -7,6 +7,9 @@ import { Product } from '@/types';
 import { HeartIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 
+const DISCOUNT = 30;
+const KARGO_MESAJI = "🚚 KARGO ÜCRETSİZ";
+
 interface ProductCardProps {
   product: Product;
   onAddToCart: () => void;
@@ -46,6 +49,10 @@ const ProductCard = ({ product, onAddToCart, onFavoriteClick, isFavorite }: Prod
 
       {/* Product Info */}
       <div className="p-4">
+        <div className="flex flex-wrap gap-2 mb-2">
+          <span className="inline-flex items-center bg-orange-100 text-orange-600 font-bold text-xs px-2 py-1 rounded-full">%{DISCOUNT} İNDİRİM</span>
+          <span className="inline-flex items-center bg-green-100 text-green-700 font-bold text-xs px-2 py-1 rounded-full">🚚 KARGO ÜCRETSİZ</span>
+        </div>
         <h3 className="text-lg font-medium text-gray-800 mb-1 group-hover:text-orange-600 transition-colors">
           {product.name}
         </h3>

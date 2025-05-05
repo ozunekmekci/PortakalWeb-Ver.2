@@ -5,12 +5,17 @@ import { useState } from "react";
 import Link from "next/link";
 import CartIcon from "@/components/CartIcon";
 
+const DISCOUNT = 30;
+const KARGO_MESAJI = "🚚 KARGO ÜCRETSİZ";
+
 export default function ProductDetailClient({ product }: { product: any }) {
   const { addToCart } = useCart();
   const [toast, setToast] = useState("");
+  const [tab, setTab] = useState<'desc' | 'reviews'>('desc');
+
+  const oldPrice = Math.round(product.price / (1 - DISCOUNT / 100));
 
   // Örnek badge, indirim, eski fiyat, puan, öne çıkanlar
-  const oldPrice = product.price + 50;
   const discount = 100 - Math.round((product.price / oldPrice) * 100);
   const badge = "%25 indirim";
   const rating = 4.9;
@@ -28,65 +33,89 @@ export default function ProductDetailClient({ product }: { product: any }) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FF914D]">
+    <div className="min-h-screen bg-orange-50/60 py-10">
       {toast && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 bg-[#E94F1D] text-white px-6 py-3 rounded-xl shadow-lg z-50 animate-bounce">
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 bg-orange-500 text-white px-6 py-3 rounded-xl shadow-lg z-50 animate-bounce">
           {toast}
         </div>
       )}
-      <header className="w-full flex justify-between items-center px-6 py-4 bg-[#FF914D]/90 shadow-sm sticky top-0 z-10">
-        <div className="flex items-center gap-3">
-          <Image src="/logo/logo.png" alt="Portakal Çiçeği Atölye Logo" width={48} height={48} className="rounded-full bg-white p-1 shadow" />
-          <span className="text-2xl font-bold tracking-tight text-[#E94F1D]">Portakal Çiçeği</span>
+      <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg flex flex-col md:flex-row overflow-hidden">
+        {/* Sol: Ürün görseli */}
+        <div className="md:w-1/2 w-full bg-white flex items-center justify-center p-8">
+          <Image
+            src={product.image}
+            alt={product.name}
+            width={400}
+            height={400}
+            className="rounded-xl object-contain max-h-[350px] w-auto h-auto"
+            priority
+          />
         </div>
-        <nav className="space-x-6 text-[#E94F1D] font-medium flex items-center">
-          <Link href="/" className="hover:text-white">Ürünler</Link>
-          <Link href="/about" className="hover:text-white">Hakkımızda</Link>
-          <Link href="/contact" className="hover:text-white">İletişim</Link>
-          <CartIcon />
-        </nav>
-      </header>
-      <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-10 flex flex-col md:flex-row gap-10 items-start">
-        {/* Sol: Galeri */}
-        <div className="flex flex-col gap-4 w-full md:w-[380px]">
-          <div className="relative w-full h-[420px] rounded-2xl overflow-hidden shadow-lg bg-white">
-            <Image src={product.image} alt={product.name} fill className="object-cover rounded-2xl" />
-            {badge && (
-              <span className="absolute top-4 left-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded shadow">{badge}</span>
+        {/* Sağ: Bilgiler */}
+        <div className="md:w-1/2 w-full p-8 flex flex-col gap-4">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="inline-block bg-orange-100 text-orange-600 font-bold text-xs px-3 py-1 rounded-full">
+              %{DISCOUNT} İNDİRİM
+            </span>
+            <span className="inline-block bg-green-100 text-green-700 font-bold text-xs px-3 py-1 rounded-full">
+              {KARGO_MESAJI}
+            </span>
+          </div>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+            {product.name}
+          </h1>
+          <div className="flex items-end gap-3 mb-2">
+            <span className="text-2xl font-bold text-orange-600">{product.price} TL</span>
+            <span className="text-base text-gray-400 line-through">{oldPrice} TL</span>
+          </div>
+          <button
+            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-lg transition mb-2 shadow"
+            onClick={handleAddToCart}
+          >
+            Sepete Ekle
+          </button>
+          <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+            <span className="inline-flex items-center gap-1">🚚 Kargo: Ücretsiz</span>
+            <span className="inline-flex items-center gap-1">🎁 Hediye Paketi</span>
+            <span className="inline-flex items-center gap-1">🌿 El Yapımı</span>
+          </div>
+          {/* Sekmeler */}
+          <div className="mt-4">
+            <div className="flex gap-6 border-b border-orange-100 mb-4">
+              <button
+                className={`pb-2 font-semibold text-base transition border-b-2 ${tab === 'desc' ? 'border-orange-500 text-orange-600' : 'border-transparent text-gray-500'}`}
+                onClick={() => setTab('desc')}
+              >
+                Açıklama
+              </button>
+              <button
+                className={`pb-2 font-semibold text-base transition border-b-2 ${tab === 'reviews' ? 'border-orange-500 text-orange-600' : 'border-transparent text-gray-500'}`}
+                onClick={() => setTab('reviews')}
+                disabled
+              >
+                Yorumlar
+              </button>
+            </div>
+            {tab === 'desc' && (
+              <div className="text-gray-700 text-sm leading-relaxed space-y-2">
+                <p>
+                  <b>Ürün Açıklaması:</b> Kişiye özel pleksi bebek hatıra mıknatıs hediyelik. Babyshower, mevlüt ve doğum günü için mükemmel bir hediye.
+                </p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>El yapımı, kişiselleştirilebilir tasarım</li>
+                  <li>Yüksek kaliteli pleksi ve baskı</li>
+                  <li>İsim yazılı, figürlü ve renkli seçenekler</li>
+                  <li>Ücretsiz kargo ve hediye paketi</li>
+                  <li>Hızlı teslimat</li>
+                </ul>
+              </div>
+            )}
+            {tab === 'reviews' && (
+              <div className="text-gray-500 text-sm">Yorumlar yakında eklenecek.</div>
             )}
           </div>
         </div>
-        {/* Sağ: Detaylar */}
-        <div className="flex-1 bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-4">
-          <div className="flex items-center gap-2 mb-2">
-            <h1 className="text-2xl font-bold text-[#E94F1D] flex-1">{product.name}</h1>
-            <span className="flex items-center gap-1 text-base text-[#E94F1D] font-bold">{rating.toFixed(1)} <svg width="16" height="16" fill="#E94F1D" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>
-          </div>
-          <div className="flex items-end gap-3 mb-2">
-            <span className="text-2xl font-bold text-green-700">{product.price.toLocaleString()} TL</span>
-            <span className="text-base text-gray-400 line-through">{oldPrice.toLocaleString()} TL</span>
-            <span className="text-xs bg-green-100 text-green-700 font-bold rounded px-2 py-0.5">%{discount} indirim</span>
-          </div>
-          <div className="text-sm text-red-600 font-semibold mb-2">Bugün bu ürünü 3 kişi sepete ekledi</div>
-          <button className="w-full bg-[#E94F1D] hover:bg-[#FF914D] text-white py-3 rounded-xl font-bold text-lg transition mb-2" onClick={handleAddToCart}>Sepete Ekle</button>
-          <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
-            <span className="inline-flex items-center gap-1"><svg width="16" height="16" fill="#E94F1D" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#E94F1D" strokeWidth="2" fill="none"/><path d="M12 8v4l3 2" stroke="#E94F1D" strokeWidth="2" strokeLinecap="round"/></svg> 7 gün içinde kargoda</span>
-            <span className="inline-flex items-center gap-1"><svg width="16" height="16" fill="#E94F1D" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><circle cx="12" cy="12" r="5"/></svg> Ücretsiz kargo</span>
-          </div>
-          <div className="border-t pt-4 mt-2">
-            <h2 className="font-bold text-[#E94F1D] mb-2">Öne Çıkanlar</h2>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-gray-700 text-sm">
-              {highlights.map((h, i) => (
-                <li key={i} className="flex items-center gap-2"><span>{h.icon}</span> {h.text}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="border-t pt-4 mt-2">
-            <h2 className="font-bold text-[#E94F1D] mb-2">Açıklama</h2>
-            <p className="text-gray-700 text-sm leading-relaxed">{product.description} <br />Pleksi malzeme üzerine folyo baskı, arka yüzü 300 gr kağıt. Hediyelik, magnet veya anahtarlık olarak tasarlanmıştır. Kişiye özel tasarım seçenekleriyle sevdiklerinize anlam katın.</p>
-          </div>
-        </div>
-      </main>
+      </div>
     </div>
   );
 } 

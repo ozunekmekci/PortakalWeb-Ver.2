@@ -3,11 +3,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
+const DISCOUNT = 30;
+const KARGO_MESAJI = "🚚 KARGO ÜCRETSİZ";
+
 const features = [
   {
     icon: '🚚',
-    title: 'Hızlı Teslimat',
-    desc: 'Siparişleriniz 2 iş günü içinde kargoda',
+    title: 'Kargo Ücretsiz',
+    desc: 'Tüm siparişlerde kargo ücretsiz',
   },
   {
     icon: '🎁',
@@ -26,9 +29,20 @@ const features = [
   },
 ];
 
-const Hero = () => {
+interface HeroProps {
+  kargoMesaji?: string;
+}
+
+const Hero = ({ kargoMesaji }: HeroProps) => {
   return (
     <section className="relative w-full bg-gradient-to-br from-orange-50 via-orange-100 to-white pb-0 pt-10 md:pt-20">
+      {/* Kargo ve indirim bannerı */}
+      <div className="w-full bg-orange-100 text-orange-800 text-center py-2 text-sm font-semibold tracking-wide flex items-center justify-center gap-2 mb-4">
+        <span>%{DISCOUNT} İNDİRİM</span>
+        <span>·</span>
+        <span>{kargoMesaji}</span>
+        <span className="flex items-center gap-1">🚚 KARGO ÜCRETSİZ</span>
+      </div>
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center gap-10 md:gap-16">
         {/* Sol: Logo veya ürün görseli */}
         <div className="flex-shrink-0 flex flex-col items-center md:items-start w-full md:w-1/2">
@@ -51,6 +65,10 @@ const Hero = () => {
           <h2 className="text-2xl md:text-3xl text-orange-500 font-semibold mb-4">
             El Yapımı Hatıra Ürünleri
           </h2>
+          <div className="flex flex-wrap gap-4 justify-center md:justify-start mb-4">
+            <span className="inline-flex items-center bg-orange-100 text-orange-600 font-bold text-sm px-3 py-1 rounded-full">%{DISCOUNT} İNDİRİM</span>
+            <span className="inline-flex items-center bg-green-100 text-green-700 font-bold text-sm px-3 py-1 rounded-full">🚚 KARGO ÜCRETSİZ</span>
+          </div>
           <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-xl">
             Özel günleriniz için el yapımı, kişiselleştirilebilir hatıra ürünleri. Her ürünümüz özenle tasarlanır ve el emeği ile üretilir.
           </p>
