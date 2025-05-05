@@ -15,13 +15,14 @@ interface ProductCardProps {
   onAddToCart: () => void;
   onFavoriteClick: () => void;
   isFavorite: boolean;
+  onQuickView?: (product: Product) => void;
 }
 
-const ProductCard = ({ product, onAddToCart, onFavoriteClick, isFavorite }: ProductCardProps) => {
+const ProductCard = ({ product, onAddToCart, onFavoriteClick, isFavorite, onQuickView }: ProductCardProps) => {
   const slug = product.image.split("/").pop()?.split(".")[0] || "";
 
   return (
-    <div className="group relative bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 h-full cursor-pointer">
+    <article className="group relative bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 h-full cursor-pointer">
       {/* Product Image */}
       <div className="relative aspect-square overflow-hidden rounded-t-lg">
         <Image
@@ -48,7 +49,7 @@ const ProductCard = ({ product, onAddToCart, onFavoriteClick, isFavorite }: Prod
       </div>
 
       {/* Product Info */}
-      <div className="p-4">
+      <div className="p-3 md:p-4">
         <div className="flex flex-wrap gap-2 mb-2">
           <span className="inline-flex items-center bg-orange-100 text-orange-600 font-bold text-xs px-2 py-1 rounded-full">%{DISCOUNT} İNDİRİM</span>
           <span className="inline-flex items-center bg-green-100 text-green-700 font-bold text-xs px-2 py-1 rounded-full">🚚 KARGO ÜCRETSİZ</span>
@@ -66,8 +67,17 @@ const ProductCard = ({ product, onAddToCart, onFavoriteClick, isFavorite }: Prod
             <ShoppingCartIcon className="h-5 w-5" />
           </button>
         </div>
+        {/* Quick View butonu */}
+        {onQuickView && (
+          <button
+            onClick={(e) => { e.stopPropagation(); onQuickView(product); }}
+            className="mt-3 w-full py-2 rounded-lg bg-brand-blue text-blue-700 font-semibold hover:bg-brand-pink transition-colors text-sm"
+          >
+            👁️ Hızlı Bakış
+          </button>
+        )}
       </div>
-    </div>
+    </article>
   );
 };
 

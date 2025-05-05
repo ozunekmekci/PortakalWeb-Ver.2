@@ -35,7 +35,7 @@ interface HeroProps {
 
 const Hero = ({ kargoMesaji }: HeroProps) => {
   return (
-    <section className="relative w-full bg-gradient-to-br from-orange-50 via-orange-100 to-white pb-0 pt-10 md:pt-20">
+    <section className="relative w-full bg-gradient-to-br from-brand-pink via-brand-blue to-white pb-0 pt-10 md:pt-20">
       {/* Kargo ve indirim bannerı */}
       <div className="w-full bg-orange-100 text-orange-800 text-center py-2 text-sm font-semibold tracking-wide flex items-center justify-center gap-2 mb-4">
         <span>%{DISCOUNT} İNDİRİM</span>
@@ -62,26 +62,26 @@ const Hero = ({ kargoMesaji }: HeroProps) => {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-gray-800 mb-4 leading-tight">
             Portakal Çiçeği Atölye
           </h1>
-          <h2 className="text-2xl md:text-3xl text-orange-500 font-semibold mb-4">
+          <h2 className="text-2xl md:text-3xl text-brand-orange font-semibold mb-4 font-serif">
             El Yapımı Hatıra Ürünleri
           </h2>
           <div className="flex flex-wrap gap-4 justify-center md:justify-start mb-4">
-            <span className="inline-flex items-center bg-orange-100 text-orange-600 font-bold text-sm px-3 py-1 rounded-full">%{DISCOUNT} İNDİRİM</span>
-            <span className="inline-flex items-center bg-green-100 text-green-700 font-bold text-sm px-3 py-1 rounded-full">🚚 KARGO ÜCRETSİZ</span>
+            <span className="inline-flex items-center bg-brand-orange/10 text-brand-orange font-bold text-sm px-3 py-1 rounded-full">%{DISCOUNT} İNDİRİM</span>
+            <span className="inline-flex items-center bg-brand-blue text-blue-700 font-bold text-sm px-3 py-1 rounded-full">🚚 KARGO ÜCRETSİZ</span>
           </div>
-          <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-xl">
+          <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-xl font-sans">
             Özel günleriniz için el yapımı, kişiselleştirilebilir hatıra ürünleri. Her ürünümüz özenle tasarlanır ve el emeği ile üretilir.
           </p>
           <div className="flex flex-wrap gap-4 justify-center md:justify-start mb-8">
             <Link
               href="/urunler"
-              className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg font-semibold shadow transition-colors"
+              className="bg-brand-orange hover:bg-orange-600 text-white px-8 py-3 rounded-lg font-semibold shadow transition-colors font-sans"
             >
               Ürünleri Keşfet
             </Link>
             <Link
               href="/hakkimizda"
-              className="bg-white border border-orange-300 text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors"
+              className="bg-white border border-brand-orange text-brand-orange px-8 py-3 rounded-lg font-semibold hover:bg-brand-orange/10 transition-colors font-sans"
             >
               Hakkımızda
             </Link>

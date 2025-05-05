@@ -4,6 +4,7 @@ import { useCart } from "@/context/CartContext";
 import { useState } from "react";
 import Link from "next/link";
 import CartIcon from "@/components/CartIcon";
+import { Toast } from "@/components/Toast";
 
 const DISCOUNT = 30;
 const KARGO_MESAJI = "🚚 KARGO ÜCRETSİZ";
@@ -33,26 +34,23 @@ export default function ProductDetailClient({ product }: { product: any }) {
   };
 
   return (
-    <div className="min-h-screen bg-orange-50/60 py-10">
+    <main className="min-h-screen bg-orange-50/60 py-6 md:py-10">
       {toast && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 bg-orange-500 text-white px-6 py-3 rounded-xl shadow-lg z-50 animate-bounce">
-          {toast}
-        </div>
+        <Toast message={toast} />
       )}
-      <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg flex flex-col md:flex-row overflow-hidden">
+      <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg flex flex-col md:flex-row overflow-hidden animate-fade-in">
         {/* Sol: Ürün görseli */}
-        <div className="md:w-1/2 w-full bg-white flex items-center justify-center p-8">
+        <div className="md:w-1/2 w-full bg-white flex items-center justify-center p-4 md:p-8">
           <Image
             src={product.image}
             alt={product.name}
             width={400}
             height={400}
             className="rounded-xl object-contain max-h-[350px] w-auto h-auto"
-            priority
           />
         </div>
         {/* Sağ: Bilgiler */}
-        <div className="md:w-1/2 w-full p-8 flex flex-col gap-4">
+        <div className="md:w-1/2 w-full p-4 md:p-8 flex flex-col gap-4">
           <div className="flex items-center gap-3 mb-2">
             <span className="inline-block bg-orange-100 text-orange-600 font-bold text-xs px-3 py-1 rounded-full">
               %{DISCOUNT} İNDİRİM
@@ -116,6 +114,26 @@ export default function ProductDetailClient({ product }: { product: any }) {
           </div>
         </div>
       </div>
-    </div>
+      {/* Sosyal Kanıt Alanı */}
+      <section className="mt-16 mb-8">
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="bg-brand-pink/60 rounded-2xl p-6 flex flex-col items-center shadow animate-fade-in">
+            <span className="text-4xl mb-2">💬</span>
+            <blockquote className="italic text-gray-700 text-center mb-2">“Ürünüm tam istediğim gibi geldi, çok kaliteli ve hızlı kargo!”</blockquote>
+            <span className="font-bold text-brand-orange">- Merve Y.</span>
+          </div>
+          <div className="bg-brand-blue/60 rounded-2xl p-6 flex flex-col items-center shadow animate-fade-in">
+            <span className="text-4xl mb-2">🏆</span>
+            <div className="font-bold text-lg text-gray-800 mb-1">En Çok Tercih Edilen Ürün</div>
+            <div className="text-gray-600 text-sm text-center">2024 Handmade Awards</div>
+          </div>
+          <div className="bg-green-100 rounded-2xl p-6 flex flex-col items-center shadow animate-fade-in">
+            <span className="text-4xl mb-2">🔒</span>
+            <div className="font-bold text-lg text-gray-800 mb-1">Güvenli Alışveriş</div>
+            <div className="text-gray-600 text-sm text-center">256-bit SSL ile korunan ödeme altyapısı</div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 } 
