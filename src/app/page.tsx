@@ -1,29 +1,40 @@
-import fs from "fs";
-import path from "path";
-import HomeClient from "./HomeClient";
+import Hero from '@/components/Hero';
+import FeaturedProducts from '@/components/FeaturedProducts';
+import fs from 'fs';
+import path from 'path';
 
-function getProducts() {
-  const sampleDir = path.join(process.cwd(), "public", "sample");
-  let files: string[] = [];
-  try {
-    files = fs.readdirSync(sampleDir).filter((file) =>
-      [".jpg", ".jpeg", ".png", ".webp"].includes(path.extname(file).toLowerCase())
-    );
-  } catch (e) {
-    return [];
-  }
-  return files.map((file) => {
+function getProductsFromImages() {
+  const dir = path.join(process.cwd(), 'public', 'images', 'products');
+  const files = fs.readdirSync(dir).filter(file =>
+    ['.jpg', '.jpeg', '.png', '.webp'].includes(path.extname(file).toLowerCase())
+  );
+  return files.map((file, i) => {
     const name = path.basename(file, path.extname(file));
     return {
-      name: name.charAt(0).toUpperCase() + name.slice(1) + " Pleksi Magnet",
-      image: `/sample/${file}`,
-      price: 129,
-      description: "Kişiye özel el yapımı pleksi magnet.",
+      id: String(i + 1),
+      name: name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+      description: 'Açıklama ekleyebilirsiniz.',
+      price: 99.99,
+      image: `/images/products/${file}`,
+      category: 'Hatıra Ürünleri',
+      isNew: true,
+      stock: 10,
+      slug: name.toLowerCase().replace(/\s+/g, '-')
     };
   });
 }
 
-export default function HomePage() {
-  const products = getProducts();
-  return <HomeClient products={products} />;
+export default function Home() {
+  const products = getProductsFromImages();
+
+  return (
+    <main>
+      <Hero />
+      <FeaturedProducts
+        products={products}
+        title="El Yapımı Ürünlerimiz"
+        subtitle="Kişiye özel tasarım ve el emeği ürünlerimizle tanışın"
+      />
+    </main>
+  );
 }

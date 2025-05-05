@@ -3,27 +3,32 @@ import fs from "fs";
 import path from "path";
 import ProductDetailClient from "./ProductDetailClient";
 
-export default async function ProductDetail({ params }) {
-  const sampleDir = path.join(process.cwd(), "public", "sample");
-  let files = [];
-  try {
-    files = fs.readdirSync(sampleDir).filter((file) =>
-      [".jpg", ".jpeg", ".png", ".webp"].includes(path.extname(file).toLowerCase())
-    );
-  } catch (e) {
-    return notFound();
-  }
-
-  const file = files.find((f) => path.basename(f, path.extname(f)).toLowerCase() === params.slug.toLowerCase());
-  if (!file) return notFound();
-
+function getProductBySlug(slug) {
+  const dir = path.join(process.cwd(), 'public', 'images', 'products');
+  const files = fs.readdirSync(dir).filter(file =>
+    ['.jpg', '.jpeg', '.png', '.webp'].includes(path.extname(file).toLowerCase())
+  );
+  const file = files.find(f => {
+    const name = path.basename(f, path.extname(f));
+    return name.toLowerCase().replace(/\s+/g, '-') === slug;
+  });
+  if (!file) return null;
   const name = path.basename(file, path.extname(file));
-  const product = {
-    name: name.charAt(0).toUpperCase() + name.slice(1) + " Pleksi Magnet",
-    image: `/sample/${file}`,
-    price: 129,
-    description: "Kişiye özel el yapımı pleksi magnet.",
+  return {
+    id: slug,
+    name: name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+    description: 'Açıklama ekleyebilirsiniz.',
+    price: 99.99,
+    image: `/images/products/${file}`,
+    category: 'Hatıra Ürünleri',
+    isNew: true,
+    stock: 10,
+    slug
   };
+}
 
+export default function ProductDetail({ params }) {
+  const product = getProductBySlug(params.slug);
+  if (!product) return notFound();
   return <ProductDetailClient product={product} />;
 } 

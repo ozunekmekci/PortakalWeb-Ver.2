@@ -4,49 +4,60 @@ import Image from "next/image";
 import Link from "next/link";
 import { StarIcon } from '@heroicons/react/24/solid';
 import { Product } from '@/types';
+import { HeartIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
+import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 
 interface ProductCardProps {
   product: Product;
-  onAddToCart?: () => void;
+  onAddToCart: () => void;
+  onFavoriteClick: () => void;
+  isFavorite: boolean;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+const ProductCard = ({ product, onAddToCart, onFavoriteClick, isFavorite }: ProductCardProps) => {
   const slug = product.image.split("/").pop()?.split(".")[0] || "";
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-3 flex flex-col items-center hover:scale-[1.03] hover:shadow-2xl transition-all border border-orange-100 relative group" data-testid="product-card">
-      <Link href={`/products/${slug}`} className="w-full">
-        <div className="relative h-48 w-full">
-          <Image
-            src={product.image}
-            alt={product.name}
-            fill
-            className="object-cover rounded-xl"
-          />
-        </div>
-      </Link>
-      <div className="w-full mt-4">
-        <Link href={`/products/${slug}`}>
-          <h3 className="text-lg font-semibold text-gray-800 hover:text-orange-500 transition-colors">
-            {product.name}
-          </h3>
-        </Link>
-        <div className="flex items-center mt-1">
-          <StarIcon className="h-5 w-5 text-yellow-400" />
-          <span className="ml-1 text-sm text-gray-600">{product.rating?.toFixed(1) || '0.0'}</span>
-          <span className="mx-1 text-gray-400">•</span>
-          <span className="text-sm text-gray-600">{product.reviews || 0} değerlendirme</span>
-        </div>
-        <div className="mt-2 flex justify-between items-center">
-          <span className="text-lg font-bold text-gray-900">₺{product.price.toFixed(2)}</span>
-          {onAddToCart && (
-            <button
-              onClick={onAddToCart}
-              className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
-            >
-              Sepete Ekle
-            </button>
+    <div className="group relative bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 h-full cursor-pointer">
+      {/* Product Image */}
+      <div className="relative aspect-square overflow-hidden rounded-t-lg">
+        <Image
+          src={product.image}
+          alt={product.name}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+        {product.isNew && (
+          <span className="absolute top-2 left-2 bg-orange-500 text-white text-xs px-2 py-1 rounded">
+            Yeni
+          </span>
+        )}
+        <button
+          onClick={(e) => { e.stopPropagation(); onFavoriteClick(); }}
+          className="absolute top-2 right-2 p-2 rounded-full bg-white/80 hover:bg-white transition-colors"
+        >
+          {isFavorite ? (
+            <HeartIconSolid className="h-5 w-5 text-orange-500" />
+          ) : (
+            <HeartIcon className="h-5 w-5 text-gray-600" />
           )}
+        </button>
+      </div>
+
+      {/* Product Info */}
+      <div className="p-4">
+        <h3 className="text-lg font-medium text-gray-800 mb-1 group-hover:text-orange-600 transition-colors">
+          {product.name}
+        </h3>
+        <p className="text-sm text-gray-600 mb-2 line-clamp-2">{product.description}</p>
+        <div className="flex items-center justify-between">
+          <span className="text-lg font-semibold text-orange-600">{product.price} TL</span>
+          <button
+            onClick={(e) => { e.stopPropagation(); onAddToCart(); }}
+            className="p-2 rounded-full bg-orange-100 text-orange-600 hover:bg-orange-200 transition-colors"
+          >
+            <ShoppingCartIcon className="h-5 w-5" />
+          </button>
         </div>
       </div>
     </div>
