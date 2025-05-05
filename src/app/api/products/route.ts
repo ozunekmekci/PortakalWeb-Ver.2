@@ -1,28 +1,28 @@
-import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { NextResponse } from 'next/server';
+import path from 'path';
+import fs from 'fs';
+
+const sampleDir = path.join(process.cwd(), 'public/products');
 
 export async function GET() {
-  const sampleDir = path.join(process.cwd(), "public", "sample");
-  let files: string[] = [];
   try {
-    files = fs.readdirSync(sampleDir).filter((file) =>
-      [".jpg", ".jpeg", ".png", ".webp"].includes(path.extname(file).toLowerCase())
-    );
-  } catch (e) {
-    // Klasör yoksa veya hata varsa boş dizi döndür
-    return NextResponse.json([]);
+    const images = fs
+      .readdirSync(sampleDir)
+      .filter((file) =>
+        ['.jpg', '.jpeg', '.png', '.webp'].includes(path.extname(file).toLowerCase())
+      );
+
+    const products = images.map((image, index) => ({
+      id: index + 1,
+      name: `Pleksi Magnet ${index + 1}`,
+      description: 'Kişiye özel tasarım pleksi magnet',
+      price: 49.99 + index * 10,
+      image: `/products/${image}`,
+    }));
+
+    return NextResponse.json(products);
+  } catch (error) {
+    console.error('Ürünler yüklenirken hata:', error);
+    return NextResponse.json([], { status: 500 });
   }
-
-  const products = files.map((file) => {
-    const name = path.basename(file, path.extname(file));
-    return {
-      name: name.charAt(0).toUpperCase() + name.slice(1) + " Pleksi Magnet",
-      image: `/sample/${file}`,
-      price: 129,
-      description: "Kişiye özel el yapımı pleksi magnet.",
-    };
-  });
-
-  return NextResponse.json(products);
 } 

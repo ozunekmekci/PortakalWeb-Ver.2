@@ -1,6 +1,5 @@
 'use client';
 import Image from 'next/image';
-import Link from 'next/link';
 
 export default function AboutPage() {
   return (
@@ -35,7 +34,7 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-brand-pink/60 rounded-2xl p-6 flex flex-col items-center shadow">
               <span className="text-4xl mb-2">💬</span>
-              <blockquote className="italic text-gray-700 text-center mb-2">“Ürünler harika, iletişim çok hızlı ve ilgili!”</blockquote>
+              <blockquote className="italic text-gray-700 text-center mb-2">"Ürünler harika, iletişim çok hızlı ve ilgili!"</blockquote>
               <span className="font-bold text-brand-orange">- Selin D.</span>
             </div>
             <div className="bg-brand-blue/60 rounded-2xl p-6 flex flex-col items-center shadow">
