@@ -25,7 +25,7 @@ const Header = () => {
   const { items, total, removeFromCart } = useCart();
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-sm">
+    <header className="z-50 bg-white shadow-sm">
       {/* Modern Promosyon Bannerı */}
       <div className="w-full flex justify-center items-center py-0.5 bg-transparent">
         <div className="relative px-8 py-1.5 rounded-2xl shadow-lg bg-gradient-to-r from-brand-orange via-pink-200 to-brand-blue border-2 border-orange-200 flex items-center gap-4 animate-fade-in"
@@ -40,16 +40,16 @@ const Header = () => {
       </div>
       {/* Main Header */}
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-28 md:h-32">
+        <div className="flex items-center justify-between h-20 md:h-24">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center -ml-8 md:-ml-16 z-10 relative">
             <div className="rounded-3xl bg-white shadow-xl border-4 border-brand-orange p-2 md:p-4 flex items-center justify-center transition-transform hover:scale-105">
               <Image
                 src="/logo/logo.png"
                 alt="Portakal Çiçeği Atölye"
                 width={200}
                 height={200}
-                className="h-20 md:h-28 w-auto drop-shadow-xl"
+                className="h-14 md:h-20 w-auto drop-shadow-xl"
                 priority
               />
             </div>

@@ -4,6 +4,10 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import SocialProof from '@/components/SocialProof';
+import TestimonialCard from '@/components/TestimonialCard';
+import InstagramFeedSlider from '@/components/InstagramFeedSlider';
+import TrustBadges from '@/components/TrustBadges';
+import CampaignBanner from '@/components/CampaignBanner';
 
 const FIXED_TITLE = 'Kişiye Özel Pleksi Bebek Hatıra Mıknatıs Hediyelik – Baskılı Figür ve İsim Yazılı Babyshower & Mevlüt & Doğum Günü Hediyesi';
 const FIXED_PRICE = 35;
@@ -43,10 +47,35 @@ function getProductsFromImages() {
   });
 }
 
+// pleasure klasöründen müşteri memnuniyetlerini oku
+function getTestimonials() {
+  const pleasureDir = path.join(process.cwd(), 'public', 'pleasure');
+  if (!fs.existsSync(pleasureDir)) return [];
+  const users = fs.readdirSync(pleasureDir).filter((name) =>
+    fs.lstatSync(path.join(pleasureDir, name)).isDirectory()
+  );
+  return users.map((username) => {
+    const userDir = path.join(pleasureDir, username);
+    // Dosya uzantılarını bulmak için
+    const files = fs.readdirSync(userDir);
+    const findFile = (prefix: string) => files.find(f => f.startsWith(prefix));
+    const urun = findFile('urun');
+    const mesaj = findFile('mesaj');
+    const pp = findFile('pp');
+    return {
+      username,
+      backgroundImg: `/pleasure/${username}/${urun}`,
+      profileImg: `/pleasure/${username}/${pp}`,
+      messageImg: `/pleasure/${username}/${mesaj}`,
+    };
+  });
+}
+
 export default function Home() {
   const products = getProductsFromImages();
   const currentMonth = getCurrentMonthTR();
   const kargoMesaji = `${currentMonth} AYINA ÖZEL KARGO ÜCRETSİZ`;
+  const testimonials = getTestimonials();
 
   return (
     <main>
@@ -56,31 +85,27 @@ export default function Home() {
         title="El Yapımı Ürünlerimiz"
         subtitle="Kişiye özel tasarım ve el emeği ürünlerimizle tanışın"
       />
-      <SocialProof
-        reviews={[
-          {
-            name: 'Elif K.',
-            rating: 5,
-            text: 'Ürünlerinizin kalitesine ve hızlı teslimatınıza bayıldım! Herkese tavsiye ederim.',
-            date: 'Mart 2024',
-            avatar: '/images/avatars/elifk.jpg',
-          },
-        ]}
-        badges={[
-          {
-            icon: '🏆',
-            title: 'Yılın El Yapımı Hediyesi',
-            desc: '2024 Handmade Awards',
-            bgClass: 'bg-brand-blue/60',
-          },
-          {
-            icon: '🔒',
-            title: 'Güvenli Alışveriş',
-            desc: '256-bit SSL ile korunan ödeme altyapısı',
-            bgClass: 'bg-green-100',
-          },
-        ]}
-      />
+      {/* Modern sosyal ve güven alanı */}
+      <div className="w-full flex flex-col md:flex-row gap-4 my-8 items-start justify-center">
+        <div className="flex flex-col gap-4 w-full max-w-md">
+          <InstagramFeedSlider />
+        </div>
+        <div className="flex flex-col gap-4 w-full max-w-md">
+          <TrustBadges />
+          <CampaignBanner />
+        </div>
+        <div className="flex flex-col gap-4 w-full max-w-md">
+          {testimonials.length > 0 && (
+            <TestimonialCard
+              backgroundImg={testimonials[0].backgroundImg}
+              profileImg={testimonials[0].profileImg}
+              username={testimonials[0].username}
+              message={<img src={testimonials[0].messageImg} alt="Müşteri mesajı" />}
+              productImg={testimonials[0].backgroundImg}
+            />
+          )}
+        </div>
+      </div>
     </main>
   );
 }
